@@ -39,7 +39,7 @@ export default function Home() {
         />
         <br />
       </div>
-        <p>Steffens version 0.1.0</p>
+        <p>Steffens version 0.1.1</p>
 
       <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
         <a
