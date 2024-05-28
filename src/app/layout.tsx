@@ -24,7 +24,7 @@ export default function RootLayout({
           </div>
           <div className="flex space-x-4">
             <input name="search" type="text" placeholder="Search here..." className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-            <button className="border border-white text-white hover:bg-white hover:text-blue-500 font-bold py-2 px-4 rounded">Sign in</button>
+            <button className="border border-white text-white hover:bg-white hover:text-black font-bold py-2 px-4 rounded">Sign in</button>
           </div>
         </header>
         <Sidebar>{children}</Sidebar>
