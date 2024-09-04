@@ -3,15 +3,15 @@ import { TumblingScoreContext } from '@/app/components/Tabs'
 import { tumblingBasic } from '@/app/data/tumbling_basic_elements'
 import React, { ChangeEventHandler, useContext, useState } from 'react'
 import { getCalculatedRoundScoreFromSeries } from '../utils/utility'
+import { IDENTIFIER_SERIES } from '../utils/constants'
 
 
 export default function SeriesPicker({series, identifier}: {series: string[], identifier: {round: string, series: string}}) {
     const score = useContext(TumblingScoreContext)
     let [diffScore, setDiffScore] = useState(getCalculatedRoundScoreFromSeries({series}).toPrecision(2))
     const [numberOfElementsArray, setNumberOfElementsArray] = useState([score.roundTwo.first.length, score.roundTwo.second.length, score.roundTwo.third.length, score.roundTwo.fourth.length, score.roundTwo.fifth.length, score.roundTwo.sixth.length])
-    //const [firstSeries, setFirstSeries] = useState(series)
     const seriesNumberInRound = identifier.series === 'first' ? 0 : identifier.series === 'second' ? 1 : identifier.series === 'third' ? 2 : identifier.series === 'fourth' ? 3 : identifier.series === 'fifth' ? 4 : 5
-    
+    const disabled = identifier.series === IDENTIFIER_SERIES.SIXTH ? true : false
     const handleChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
         let id = Number(e.target.id)
 
@@ -63,6 +63,10 @@ export default function SeriesPicker({series, identifier}: {series: string[], id
         modifyrArray[seriesNumberInRound]--
         setNumberOfElementsArray(modifyrArray)
     }
+    function copyToNext(event: React.MouseEvent<HTMLButtonElement>): void {
+        throw new Error('Function not implemented.')
+    }
+
     return (
         <div className='my-8 border-b border-solid border-gray-300 pb-4'>
             <p>Series Score: {diffScore}</p>
@@ -82,6 +86,7 @@ export default function SeriesPicker({series, identifier}: {series: string[], id
             <button className='bg-white hover:bg-gray-400 hover:text-white text-black font-bold py-2 px-4 rounded' onClick={removeNumberOfElements} >-</button>
             <span className='mx-8'>{numberOfElementsArray[seriesNumberInRound]}</span>
             <button className='bg-white hover:bg-gray-400 hover:text-white text-black font-bold py-2 px-4 rounded' onClick={addNumberOfElements}>+</button>
+            <button className={`text-black py-2 px-4 rounded mx-4 ${disabled ? "bg-gray-400 opacity-50" : "bg-white hover:bg-gray-400 hover:text-white text-black"}`} disabled={disabled} onClick={copyToNext}>Copy to Next</button>
         </div>
     )
 }
