@@ -12,7 +12,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
         <nav>
           <ul>
             <li>
-              <a href="/" className="block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200">
+              <a href="/" className="block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200" >
                 Home
               </a>
             </li>

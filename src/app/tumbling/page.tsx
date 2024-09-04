@@ -1,118 +1,78 @@
-"use client";
-import React, { useReducer, useState } from "react";
-import SeriesForm from "../components/SeriesForm";
+"use client"
+import React, { ChangeEventHandler, use, useContext, useEffect, useState } from 'react'
+import { disciplineScore, TumblingScoreContext } from '../components/Tabs'
+import { tumblingBasic, tumblingElement } from '../data/tumbling_basic_elements'
 
-export type State = {
-  firstRound: number;
-  secondSeries: number;
-  thirdSeries: number;
-  scoreSummary: number;
-};
+export function getCalculatedTeamRoundScore(score: disciplineScore){
+  let result = 0
 
-export type Action = {
-  type: string;
-  score: number;
-};
+  // this from store
+  let elements = score.teamRound.series
+  
+  elements.forEach(el => {
+    let element : tumblingElement | undefined = tumblingBasic.find(element => element.id === el)
+    if (element) {
+      result += element.score
+    }
+  })
+  return result*6;
+}
 
-export default function Tumbling() {
-  const [activeTab, setActiveTab] = useState("tab1");
-  const [calculatedScore, setCalculatedScore] = useState(0);
+export default function TeamRound() {
+  const score = useContext(TumblingScoreContext)
+  
+  let [series, setSeries] = useState(score.teamRound.series)
+  let [diffScore, setDiffScore] = useState(getCalculatedTeamRoundScore(score).toPrecision(2))
+  const [numberOfElements, setNumberOfElements] = useState(score.teamRound.series.length)
+  const basicElements = tumblingBasic
 
-  const initialState: State = {
-    firstRound: 0,
-    secondSeries: 0,
-    thirdSeries: 0,
-    scoreSummary: 0,
-  };
 
-  function reducer(state: State, action: Action) {
-    switch (action.type) {
-      case "addFirstSeriesScore":
-        let firstRoundScore = 1;
-        setCalculatedScore(calculatedScore + firstRoundScore);
-        return { ...state, firstRound: action.score };
-      case "addSecondSeriesScore":
-        let secondSeriesScore = 1;
-        setCalculatedScore(calculatedScore + secondSeriesScore);
-        return { ...state, secondSeries: state.secondSeries + secondSeriesScore };
-      case "addThirdSeriesScore":
-        let thirdSeriesScore = 1;
-        setCalculatedScore(calculatedScore + thirdSeriesScore);
-        return { ...state, thirdSeries: state.thirdSeries + thirdSeriesScore };
-      default:
-        throw Error("Unknown action: " + action.type);
+  const addNumberOfElements = () => {
+    if (numberOfElements >= 6) {
+      return
+    } else {
+      setNumberOfElements(numberOfElements + 1) 
+      score.teamRound.series.push('')
     }
   }
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  function handleFirstSeries(score: number) {
-    dispatch({ type: "addFirstSeriesScore", score });
+  const removeNumberOfElements = () => {
+    if (numberOfElements == 1) {
+      return 
+    } else {
+      setNumberOfElements(numberOfElements -1)
+      score.teamRound.series.pop()
+      setDiffScore(getCalculatedTeamRoundScore(score).toPrecision(2))
+    }
   }
 
-  function handleSecondSeries(gymnastNumber: number): void {
-    throw new Error("Function not implemented.");
+  const handleChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    //console.log(e.target.id);
+    let id = Number(e.target.id)
+    score.teamRound.series[id] = e.target.value
+    setDiffScore(getCalculatedTeamRoundScore(score).toPrecision(2))
   }
-
-  /* function handleSecondSeries(): void {
-    dispatch({ type: "addSecondSeriesScore" });
-  }
-  function handleThirdSeries(): void {
-    dispatch({ type: "addThirdSeriesScore" });
-  } */
 
   return (
     <div>
-      <div className="flex border-b">
-        <button className={`py-2 px-4 ${activeTab === "tab1" ? "border-b-2 white-blue-500" : ""}`} onClick={() => setActiveTab("tab1")}>
-          Team Round
-        </button>
-        <button className={`py-2 px-4 ${activeTab === "tab2" ? "border-b-2 white-blue-500" : ""}`} onClick={() => setActiveTab("tab2")}>
-          2nd Round
-        </button>
-        <button className={`py-2 px-4 ${activeTab === "tab3" ? "border-b-2 white-blue-500" : ""}`} onClick={() => setActiveTab("tab3")}>
-          3rd Round
-        </button>
-        <button className={`py-2 px-4 ${activeTab === "tab4" ? "border-b-2 white-blue-500" : ""}`} onClick={() => setActiveTab("tab4")}>
-          Final Score
-        </button>
-      </div>
-      <div className="p-5">
-        {activeTab === "tab1" && (
-          <>
-            {/* <RoundCalculater title={"Team Round"} getRoundScore={(score: number) => getFirstRoundScore(score)} /> */}
-            <div>
-              <h2>Team Round</h2>
-              {<p>Round Score: {state.firstRound}</p>}
-              <SeriesForm title="Team Series" submitSeriesScore={(score: number) => handleFirstSeries(score)} />
-            </div>
-          </>
-        )}
-        {activeTab === "tab2" && (
-          <div>
-            <h2>2nd Round</h2>
-            {<p>Team Round Score: {state.secondSeries}</p>}
-            <SeriesForm title="1. Series" submitSeriesScore={() => handleSecondSeries(1)} />
-            <SeriesForm title="2. Series" submitSeriesScore={() => handleSecondSeries(2)} />
-            <SeriesForm title="3. Series" submitSeriesScore={() => handleSecondSeries(3)} />
-            <SeriesForm title="4. Series" submitSeriesScore={() => handleSecondSeries(4)} />
-            <SeriesForm title="5. Series" submitSeriesScore={() => handleSecondSeries(5)} />
-            <SeriesForm title="6. Series" submitSeriesScore={() => handleSecondSeries(6)} />
+      <h2>Team Round</h2>
+      <p>Difficulty {diffScore}</p>
+      <h3>Choose number of elements:</h3>
+      <button className='bg-white hover:bg-gray-400 hover:text-white text-black font-bold py-2 px-4 rounded' onClick={removeNumberOfElements}>-</button>
+      <span className='mx-8'>{numberOfElements}</span>
+      <button className='bg-white hover:bg-gray-400 hover:text-white text-black font-bold py-2 px-4 rounded' onClick={addNumberOfElements}>+</button>
+      <h3>Choose TeamRound acrobatics series: </h3>
+      {series.map(el => {
+        return (
+          <div key={el + Math.random()}>
+            <select name="basicElements" id={series.indexOf(el).toString()} value={el} className="text-black py-2 px-3 rounded" onChange={handleChange}>
+              <option >please select difficulty</option>
+              {basicElements.map((element) => (
+                <option key={element.id + Math.random()} value={element.id}>{element.name} - {element.score}</option>
+              ))}
+            </select>
           </div>
-        )}
-        {activeTab === "tab3" && (
-          <div>
-            <h2>3nd Round</h2>
-            {<p>Team Round Score: {state.thirdSeries}</p>}
-            {/*<SeriesForm title="1. Series" submitSeriesScore={() => handleThirdSeries()} />
-             <SeriesForm title="2. Series" submitSeriesScore={() => console.log("SeriesScore")} />
-            <SeriesForm title="3. Series" submitSeriesScore={() => console.log("SeriesScore")} />
-            <SeriesForm title="4. Series" submitSeriesScore={() => console.log("SeriesScore")} />
-            <SeriesForm title="5. Series" submitSeriesScore={() => console.log("SeriesScore")} />
-            <SeriesForm title="6. Series" submitSeriesScore={() => console.log("SeriesScore")} /> */}
-          </div>
-        )}
-        {activeTab === "tab4" && <div>Score Summary: {calculatedScore} </div>}
-      </div>
+        )
+      })}
     </div>
-  );
-}
+  )
+} 
