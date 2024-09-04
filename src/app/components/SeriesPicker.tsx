@@ -1,19 +1,10 @@
 "use client"
 import { TumblingScoreContext } from '@/app/components/Tabs'
-import { tumblingBasic, tumblingElement } from '@/app/data/tumbling_basic_elements'
+import { tumblingBasic } from '@/app/data/tumbling_basic_elements'
 import React, { ChangeEventHandler, useContext, useState } from 'react'
+import { getCalculatedRoundScoreFromSeries } from '../utils/utility'
 
-export function getCalculatedRoundScoreFromSeries({series}: {series: string[]}) {
-    let result = 0
 
-    series.forEach(el => {
-        let element: tumblingElement | undefined = tumblingBasic.find(element => element.id === el)
-        if (element) {
-            result += element.score
-        }
-    })
-    return result;
-}
 export default function SeriesPicker({series, identifier}: {series: string[], identifier: {round: string, series: string}}) {
     const score = useContext(TumblingScoreContext)
     let [diffScore, setDiffScore] = useState(getCalculatedRoundScoreFromSeries({series}).toPrecision(2))

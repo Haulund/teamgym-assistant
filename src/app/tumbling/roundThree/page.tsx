@@ -1,22 +1,10 @@
 'use client'
 import SeriesPicker from '@/app/components/SeriesPicker'
-import { disciplineScore, TumblingScoreContext } from '@/app/components/Tabs'
+import { TumblingScoreContext } from '@/app/components/Tabs'
 import { IDENTIFIER_ROUND, IDENTIFIER_SERIES } from '@/app/utils/constants'
 import React, { useContext, useState } from 'react'
-import { tumblingElement, tumblingBasic } from '@/app/data/tumbling_basic_elements'
-export function getCalculatedRoundThreeScore(score: disciplineScore) {
-  let result = 0
+import { getCalculatedRoundThreeScore } from '@/app/utils/utility'
 
-  Object.values(score.roundThree).forEach(series => {
-    series.forEach(el => {
-      let element: tumblingElement | undefined = tumblingBasic.find(element => element.id === el)
-      if (element) {
-        result += element.score
-      }
-    })
-  })
-  return result;
-}
 export default function RoundThree() {
   const score = useContext(TumblingScoreContext)
   let [diffScore, setDiffScore] = useState(getCalculatedRoundThreeScore(score).toPrecision(2))

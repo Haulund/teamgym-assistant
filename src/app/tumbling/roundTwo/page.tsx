@@ -1,23 +1,9 @@
 "use client"
 import SeriesPicker from '@/app/components/SeriesPicker'
-import { disciplineScore, TumblingScoreContext } from '@/app/components/Tabs'
-import { tumblingBasic, tumblingElement } from '@/app/data/tumbling_basic_elements'
+import { TumblingScoreContext } from '@/app/components/Tabs'
 import { IDENTIFIER_ROUND, IDENTIFIER_SERIES } from '@/app/utils/constants'
+import { getCalculatedRoundTwoScore } from '@/app/utils/utility'
 import React, { useContext, useState } from 'react'
-
-export function getCalculatedRoundTwoScore(score: disciplineScore) {
-  let result = 0
-
-  Object.values(score.roundTwo).forEach(series => {
-    series.forEach(el => {
-      let element: tumblingElement | undefined = tumblingBasic.find(element => element.id === el)
-      if (element) {
-        result += element.score
-      }
-    })
-  })
-  return result;
-}
 
 export default function RoundTwo() {
   const score = useContext(TumblingScoreContext)

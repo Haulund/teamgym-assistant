@@ -1,9 +1,8 @@
 "use client"
 import { TumblingScoreContext } from '@/app/components/Tabs'
+import { getCalculatedTeamRoundScore, getCalculatedRoundTwoScore, getCalculatedRoundThreeScore } from '@/app/utils/utility'
 import React, { useContext, useState } from 'react'
-import { getCalculatedTeamRoundScore } from '../page'
-import { getCalculatedRoundTwoScore } from '../roundTwo/page'
-import { getCalculatedRoundThreeScore } from '../roundThree/page'
+
 
 export default function ScoreOverview() {
   const score = useContext(TumblingScoreContext)

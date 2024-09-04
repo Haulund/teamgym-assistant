@@ -2,21 +2,7 @@
 import React, { ChangeEventHandler, use, useContext, useEffect, useState } from 'react'
 import { disciplineScore, TumblingScoreContext } from '../components/Tabs'
 import { tumblingBasic, tumblingElement } from '../data/tumbling_basic_elements'
-
-export function getCalculatedTeamRoundScore(score: disciplineScore){
-  let result = 0
-
-  // this from store
-  let elements = score.teamRound.series
-  
-  elements.forEach(el => {
-    let element : tumblingElement | undefined = tumblingBasic.find(element => element.id === el)
-    if (element) {
-      result += element.score
-    }
-  })
-  return result*6;
-}
+import { getCalculatedTeamRoundScore } from '../utils/utility'
 
 export default function TeamRound() {
   const score = useContext(TumblingScoreContext)
