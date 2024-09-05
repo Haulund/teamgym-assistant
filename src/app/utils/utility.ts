@@ -68,3 +68,12 @@ export function getCalculatedRoundScoreFromSeries({ series }: { series: string[]
 
   return result;
 }
+
+export const getElementById = (id: string) => {
+  try {
+    return tumblingBasic.find(element => element.id === id)?.name
+  } catch (error) {
+    console.log(error);
+    return 'Element not found'
+  }
+}
