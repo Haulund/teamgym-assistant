@@ -22,6 +22,11 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
               </a>
             </li>
             <li>
+              <a href="/trampet" className="block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200">
+                Trampet
+              </a>
+            </li>
+            <li>
               <a href="/floor" className="block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200">
                 Floor
               </a>

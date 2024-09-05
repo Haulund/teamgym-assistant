@@ -31,30 +31,30 @@ export type disciplineScore = {
 
 const disciplineScoreState = {
     teamRound: {
-        series: ['FwT001', 'FwT002'],
+        series: ['TPT001'],
     },
     roundTwo: {
-        first: ['FwT003', 'FwT004'],
-        second: ['FwT001', 'FwT002'],
-        third: ['FwT001', 'FwT002'],
-        fourth: ['FwT001', 'FwT002'],
-        fifth: ['FwT001', 'FwT002'],
-        sixth: ['FwT001', 'FwT002'],
+        first: ['TPT002'],
+        second: ['TPT002'],
+        third: ['TPT002'],
+        fourth: ['TPT002'],
+        fifth: ['TPT002'],
+        sixth: ['TPT002'],
     },
     roundThree: {
-        first: ['FwT001', 'FwT002'],
-        second: ['FwT001', 'FwT002'],
-        third: ['FwT001', 'FwT002'],
-        fourth: ['FwT001', 'FwT002'],
-        fifth: ['FwT001', 'FwT002'],
-        sixth: ['FwT001', 'FwT002'],
+        first: ['TPT002'],
+        second: ['TPT002'],
+        third: ['TPT002'],
+        fourth: ['TPT002'],
+        fifth: ['TPT002'],
+        sixth: ['TPT002'],
     },
 };
 
 export const TumblingScoreContext = React.createContext(
     disciplineScoreState);
 
-export default function Tabs({ children }: React.PropsWithChildren<SidebarProps>) {
+export default function TrampetTabs({ children }: React.PropsWithChildren<SidebarProps>) {
     const path = usePathname();
     console.log(path);
 
@@ -63,16 +63,16 @@ export default function Tabs({ children }: React.PropsWithChildren<SidebarProps>
 
     useEffect(() => {
         switch (path) {
-            case '/tumbling':
+            case '/trampet':
                 setActiveTab("tab1");
                 break;
-            case '/tumbling/roundTwo':
+            case '/trampet/roundTwo':
                 setActiveTab("tab2");
                 break;
-            case '/tumbling/roundThree':
+            case '/trampet/roundThree':
                 setActiveTab("tab3");
                 break;
-            case '/tumbling/score':
+            case '/trampet/score':
                 setActiveTab("tab4");
                 break;
             default:
@@ -84,16 +84,16 @@ export default function Tabs({ children }: React.PropsWithChildren<SidebarProps>
         <>
             <TumblingScoreContext.Provider value={disciplineScore}>
                 <div className="flex border-b">
-                    <Link href="/tumbling" className={`block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200py-2 px-4 ${activeTab === "tab1" ? "border-b-4 white-blue-500" : ""}`} >
+                    <Link href="/trampet" className={`block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200py-2 px-4 ${activeTab === "tab1" ? "border-b-4 white-blue-500" : ""}`} >
                         Team Round
                     </Link>
-                    <Link href="/tumbling/roundTwo" className={`block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200py-2 px-4 ${activeTab === "tab2" ? "border-b-4 white-blue-500" : ""}`}>
+                    <Link href="/trampet/roundTwo" className={`block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200py-2 px-4 ${activeTab === "tab2" ? "border-b-4 white-blue-500" : ""}`}>
                         Round Two
                     </Link>
-                    <Link href="/tumbling/roundThree" className={`block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200py-2 px-4 ${activeTab === "tab3" ? "border-b-4 white-blue-500" : ""}`}>
+                    <Link href="/trampet/roundThree" className={`block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200py-2 px-4 ${activeTab === "tab3" ? "border-b-4 white-blue-500" : ""}`}>
                         Round Three
                     </Link>
-                    <Link href="/tumbling/score" className={`block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200py-2 px-4 ${activeTab === "tab4" ? "border-b-4 white-blue-500" : ""}`}>
+                    <Link href="/trampet/score" className={`block w-full p-4 hover:bg-gray-200 hover:text-black transition duration-200py-2 px-4 ${activeTab === "tab4" ? "border-b-4 white-blue-500" : ""}`}>
                         Score Overview
                     </Link>
                 </div>
