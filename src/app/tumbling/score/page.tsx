@@ -24,7 +24,7 @@ export default function ScoreOverview() {
         <p>Round Two {secondRoundScore.toPrecision(2)}</p>
         {Object.values(score.roundTwo).map((series: string[], index) => {
           return (
-            <div>series: {index + +1}
+            <div key={'roundTwoIndex'+index} >series: {index + +1}
               {series.map((element, index) => <span key={index}> {getElementById(element)}</span>)}
               <span> {getCalculatedRoundScoreFromSeries({series}).toFixed(2)}</span>
             </div>
@@ -35,7 +35,7 @@ export default function ScoreOverview() {
         <p>Round Three {thirdRoundScore.toPrecision(2)}</p>
         {Object.values(score.roundThree).map((series: string[], index) => {
           return (
-            <div>series: {index + +1}
+            <div key={'roundThreeIndex'+index}>series: {index + +1}
               {series.map((element, index) => <span key={index}> {getElementById(element)} </span>)}
               <span> {getCalculatedRoundScoreFromSeries({series}).toFixed(2)}</span>
             </div>
